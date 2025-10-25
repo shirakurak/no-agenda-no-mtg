@@ -1,9 +1,27 @@
 (() => {
-  const PREFILL_TEXT = "アジェンダはこちら:";
-  const TITLE_LABELS = ["タイトル", "Title"];
-  const DESC_LABELS = ["説明", "Description"];
-  const KEYWORDS = /(mtg)/i;
+  const DEFAULTS = {
+    keyword: "mtg",                   // デフォルト検知キーワード
+    prefillText: "アジェンダはこちら:" // デフォルト挿入文言
+  };
 
+  // storage から設定取得（存在しなければ DEFAULTS）
+  function getSettings() {
+    return new Promise(resolve => {
+      try {
+        chrome.storage?.sync.get(DEFAULTS, (items) => {
+          resolve({
+            keyword: String(items.keyword || DEFAULTS.keyword),
+            prefillText: String(items.prefillText || DEFAULTS.prefillText)
+          });
+        });
+      } catch (e) {
+        // 非Chrome環境や万一の失敗時はデフォルト
+        resolve(DEFAULTS);
+      }
+    });
+  }
+
+  // ラベル名から入力要素を見つける
   const findInputByLabels = (labels) => {
     const selectors = [
       'input[aria-label]', 'textarea[aria-label]',
@@ -37,44 +55,63 @@
     el.dispatchEvent(new Event("change", { bubbles: true }));
   };
 
-  const shouldPrefill = (title, desc) => {
-    const hasKeyword = KEYWORDS.test(title || "");
-    const descEmpty = !desc || desc.trim().length === 0;
-    return hasKeyword && descEmpty;
+  // 連打防止の簡易debounce
+  const debounce = (fn, wait=120) => {
+    let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), wait); };
   };
 
-  const wireDialog = (container) => {
+  function wireDialogWithSettings(settings, container) {
     if (container.__no_agenda_no_mtg_wired) return;
     container.__no_agenda_no_mtg_wired = true;
+
+    const TITLE_LABELS = ["タイトル", "Title"];
+    const DESC_LABELS  = ["説明", "Description"];
 
     const titleEl = findInputByLabels(TITLE_LABELS);
     const descEl  = findInputByLabels(DESC_LABELS);
     if (!titleEl || !descEl) return;
 
+    const MARK = "__no_agenda_prefilled__";
+    const prefillText = settings.prefillText;
+    // カンマ区切りで複数指定可能に（例: "mtp,mtg,meeting"）
+    const parts = settings.keyword.split(",").map(s => s.trim()).filter(Boolean);
+    const regex = new RegExp(`(${parts.map(p => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join("|")})`, "i");
+
     const run = () => {
       const title = getText(titleEl);
       const desc  = getText(descEl);
-      if (shouldPrefill(title, desc)) {
-        setText(descEl, PREFILL_TEXT);
+      if (!regex.test(title)) return;
+      if (!desc || !desc.trim()) {
+        if (descEl[MARK] === true) return;         // ユーザーが一度消した後は再挿入しない
+        if (desc && desc.includes(prefillText)) return; // 多重挿入防止
+        setText(descEl, prefillText);
+        descEl[MARK] = true;
       }
     };
 
-    setTimeout(run, 80);
-    titleEl.addEventListener("input", run, { passive: true });
-  };
+    const runDebounced = debounce(run, 120);
+    setTimeout(run, 100);
+    titleEl.addEventListener("input", runDebounced, { passive: true });
+  }
 
-  const observer = new MutationObserver(mutations => {
-    for (const m of mutations) {
-      for (const node of m.addedNodes) {
-        if (!(node instanceof HTMLElement)) continue;
-        if (node.getAttribute && node.getAttribute("role") === "dialog") {
-          wireDialog(node);
+  // 監視開始
+  (async () => {
+    const settings = await getSettings();
+
+    const observer = new MutationObserver(mutations => {
+      for (const m of mutations) {
+        for (const node of m.addedNodes) {
+          if (!(node instanceof HTMLElement)) continue;
+          if (node.getAttribute && node.getAttribute("role") === "dialog") {
+            wireDialogWithSettings(settings, node);
+          }
+          node.querySelectorAll?.('[role="dialog"]').forEach(el => wireDialogWithSettings(settings, el));
         }
-        node.querySelectorAll?.('[role="dialog"]').forEach(wireDialog);
       }
-    }
-  });
-  observer.observe(document.documentElement, { childList: true, subtree: true });
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
 
-  document.querySelectorAll('[role="dialog"]').forEach(wireDialog);
+    // 既に開いているダイアログにも適用
+    document.querySelectorAll('[role="dialog"]').forEach(el => wireDialogWithSettings(settings, el));
+  })();
 })();
