@@ -2,9 +2,8 @@
   const PREFILL_TEXT = "アジェンダはこちら:";
   const TITLE_LABELS = ["タイトル", "Title"];
   const DESC_LABELS = ["説明", "Description"];
-  const KEYWORDS = /(mtg)/i; // ここに他のキーワードを追加可: /(mtg|会議|meeting)/i
+  const KEYWORDS = /(mtg)/i;
 
-  // 共通: 入力要素を見つける
   const findInputByLabels = (labels) => {
     const selectors = [
       'input[aria-label]', 'textarea[aria-label]',
@@ -24,7 +23,6 @@
   const getText = (el) => {
     if (!el) return "";
     if ("value" in el) return el.value || "";
-    // contenteditable
     return (el.innerText || el.textContent || "").trim();
   };
 
@@ -61,12 +59,10 @@
       }
     };
 
-    // 初回 & タイトル変更時にチェック
     setTimeout(run, 80);
     titleEl.addEventListener("input", run, { passive: true });
   };
 
-  // ダイアログ(作成/編集UI)は動的生成なので監視
   const observer = new MutationObserver(mutations => {
     for (const m of mutations) {
       for (const node of m.addedNodes) {
@@ -74,13 +70,11 @@
         if (node.getAttribute && node.getAttribute("role") === "dialog") {
           wireDialog(node);
         }
-        // 新UIでサイドパネルの場合もあるので広めに
         node.querySelectorAll?.('[role="dialog"]').forEach(wireDialog);
       }
     }
   });
   observer.observe(document.documentElement, { childList: true, subtree: true });
 
-  // ページ読み込み時に既に開いているダイアログがあれば処理
   document.querySelectorAll('[role="dialog"]').forEach(wireDialog);
 })();
