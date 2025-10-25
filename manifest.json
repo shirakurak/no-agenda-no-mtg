@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "no-agenda-no-mtg",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "If a meeting has no agenda, it shouldn’t exist. Googleカレンダーでタイトルに「mtg」を含み説明が空なら自動で『アジェンダはこちら:』を挿入します。",
   "permissions": [
     "storage"
@@ -12,10 +12,10 @@
   },
   "homepage_url": "https://github.com/shirakurak/no-agenda-no-mtg",
   "icons": {
-    "16": "icon16.png",
-    "32": "icon32.png",
-    "48": "icon48.png",
-    "128": "icon128.png"
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
   },
   "content_scripts": [
     {
