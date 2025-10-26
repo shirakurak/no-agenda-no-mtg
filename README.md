@@ -26,4 +26,3 @@ it automatically inserts the text `Agenda here:` in the description field.
 ## Contributing
 
 Pull requests and ideas are welcome.
-Let’s spread the “No Agenda, No Meeting” culture together.
