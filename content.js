@@ -1,6 +1,6 @@
 (() => {
   const DEFAULTS = {
-    keyword: "mtg",
+    keyword: "mtg, meeting",
     prefillText: "Agenda here:"
   };
 
