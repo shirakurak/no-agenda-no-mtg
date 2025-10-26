@@ -1,10 +1,9 @@
-
 <!doctype html>
-<html lang="ja">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>no-agenda-no-mtg 設定</title>
+  <title>no-agenda-no-mtg settings</title>
   <style>
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; padding: 24px; }
     h1 { font-size: 20px; margin-bottom: 8px; }
@@ -18,19 +17,19 @@
   </style>
 </head>
 <body>
-  <h1>no-agenda-no-mtg 設定</h1>
+  <h1>no-agenda-no-mtg settings</h1>
   <div class="field">
-    <label for="keyword">検知するキーワード（カンマ区切りで複数可）</label>
-    <input type="text" id="keyword" placeholder="例: mtp, mtg, meeting">
-    <div class="hint">タイトルにこれらの文字列が含まれていて、説明が空の場合に挿入します。デフォルト: <code>mtg</code></div>
+    <label for="keyword">Keywords to detect (multiple separated by commas)</label>
+    <input type="text" id="keyword" placeholder="example: mtg, meeting">
+    <div class="hint">Insert if these strings are included in the title and the description is empty. Default: <code>mtg</code></div>
   </div>
   <div class="field">
-    <label for="prefill">挿入する文言</label>
-    <input type="text" id="prefill" placeholder="例: アジェンダはこちら:">
-    <div class="hint">説明欄が空のときに挿入する固定文言です。デフォルト: <code>アジェンダはこちら:</code></div>
+    <label for="prefill">Text to insert</label>
+    <input type="text" id="prefill" placeholder="example: Agenda here:">
+    <div class="hint">Fixed text to insert when the description field is empty. Default: <code>Agenda here:</code></div>
   </div>
   <div class="actions">
-    <button id="save">保存</button><span class="ok" id="ok" style="display:none;">保存しました</span>
+    <button id="save">Save</button><span class="ok" id="ok" style="display:none;">Saved</span>
   </div>
 
   <script src="options.js"></script>

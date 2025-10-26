@@ -1,10 +1,9 @@
 (() => {
   const DEFAULTS = {
-    keyword: "mtg",                   // デフォルト検知キーワード
-    prefillText: "アジェンダはこちら:" // デフォルト挿入文言
+    keyword: "mtg",
+    prefillText: "Agenda here:"
   };
 
-  // storage から設定取得（存在しなければ DEFAULTS）
   function getSettings() {
     return new Promise(resolve => {
       try {
@@ -15,13 +14,11 @@
           });
         });
       } catch (e) {
-        // 非Chrome環境や万一の失敗時はデフォルト
         resolve(DEFAULTS);
       }
     });
   }
 
-  // ラベル名から入力要素を見つける
   const findInputByLabels = (labels) => {
     const selectors = [
       'input[aria-label]', 'textarea[aria-label]',
@@ -55,7 +52,6 @@
     el.dispatchEvent(new Event("change", { bubbles: true }));
   };
 
-  // 連打防止の簡易debounce
   const debounce = (fn, wait=120) => {
     let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), wait); };
   };
@@ -73,7 +69,6 @@
 
     const MARK = "__no_agenda_prefilled__";
     const prefillText = settings.prefillText;
-    // カンマ区切りで複数指定可能に（例: "mtp,mtg,meeting"）
     const parts = settings.keyword.split(",").map(s => s.trim()).filter(Boolean);
     const regex = new RegExp(`(${parts.map(p => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join("|")})`, "i");
 
@@ -82,8 +77,8 @@
       const desc  = getText(descEl);
       if (!regex.test(title)) return;
       if (!desc || !desc.trim()) {
-        if (descEl[MARK] === true) return;         // ユーザーが一度消した後は再挿入しない
-        if (desc && desc.includes(prefillText)) return; // 多重挿入防止
+        if (descEl[MARK] === true) return;
+        if (desc && desc.includes(prefillText)) return;
         setText(descEl, prefillText);
         descEl[MARK] = true;
       }
@@ -94,7 +89,6 @@
     titleEl.addEventListener("input", runDebounced, { passive: true });
   }
 
-  // 監視開始
   (async () => {
     const settings = await getSettings();
 
@@ -111,7 +105,6 @@
     });
     observer.observe(document.documentElement, { childList: true, subtree: true });
 
-    // 既に開いているダイアログにも適用
     document.querySelectorAll('[role="dialog"]').forEach(el => wireDialogWithSettings(settings, el));
   })();
 })();
