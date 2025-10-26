@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "no-agenda-no-mtg",
-  "version": "1.1.1",
+  "version": "1.2.1",
   "description": "If a meeting has no agenda, it shouldn’t exist. When you create a Google Calendar event with `mtg` in the title and no description, it automatically inserts the text `Agenda here:` in the description field.",
   "permissions": [
     "storage"
