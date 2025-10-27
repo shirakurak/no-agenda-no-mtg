@@ -11,6 +11,8 @@ it automatically inserts the text `アジェンダはこちら：` (in English: 
 **Mission:**
 > If a meeting has no agenda, it shouldn’t exist.
 
+![Google Calendar screenshot showing automatic agenda insertion](icons/calendar_screenshot_640x400.png)
+
 ## Features
 
 - Detects when the event title contains `mtg` or `meetintg`  (or any custom keyword you set)
