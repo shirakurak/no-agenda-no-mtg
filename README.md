@@ -5,7 +5,7 @@
 ## Overview
 
 **no-agenda-no-mtg** is a Chrome extension that helps you build a better meeting culture.
-When you create a Google Calendar event with `mtg` or `meetintg` in the title,
+When you create a Google Calendar event with `meetintg` or `mtg` in the title,
 it automatically inserts the text `アジェンダはこちら：` (in English: `Agenda here:`) in the description field.
 
 **Mission:**

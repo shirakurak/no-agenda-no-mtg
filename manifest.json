@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "no-agenda-no-mtg",
   "version": "1.2.1",
-  "description": "This Chrome extension auto-inserts `Agenda here:` when you create a Google Calendar event containing `mtg` but no description.",
+  "description": "Google Calendar の予定のタイトルに `meeting` が含まれていたら、説明欄に自動で `アジェンダはこちら：`を挿入します。",
   "permissions": [
     "storage"
   ],

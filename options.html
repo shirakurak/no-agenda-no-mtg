@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>no-agenda-no-mtg settings</title>
+  <title>no-agenda-no-mtg 設定</title>
   <style>
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; padding: 24px; }
     h1 { font-size: 20px; margin-bottom: 8px; }
@@ -17,17 +17,17 @@
   </style>
 </head>
 <body>
-  <h1>no-agenda-no-mtg settings</h1>
+  <h1>no-agenda-no-mtg 設定</h1>
   <div class="field">
-    <label for="keyword">Keywords to detect (multiple separated by commas)</label>
-    <input type="text" id="keyword" placeholder="example: mtg, meeting">
+    <label for="keyword">検知するキーワード（カンマ区切りで複数指定可）</label>
+    <input type="text" id="keyword" placeholder="meeting, mtg">
   </div>
   <div class="field">
-    <label for="prefill">Text to insert</label>
-    <input type="text" id="prefill" placeholder="example: Agenda here:">
+    <label for="prefill">自動で挿入する文言</label>
+    <input type="text" id="prefill" placeholder="アジェンダはこちら：">
   </div>
   <div class="actions">
-    <button id="save">Save</button><span class="ok" id="ok" style="display:none;">Saved</span>
+    <button id="save">保存</button><span class="ok" id="ok" style="display:none;">保存しました</span>
   </div>
 
   <script src="options.js"></script>

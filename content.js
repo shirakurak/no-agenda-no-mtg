@@ -1,7 +1,7 @@
 (() => {
   const DEFAULTS = {
-    keyword: "mtg, meeting",
-    prefillText: "Agenda here:"
+    keyword: "meeting, mtg",
+    prefillText: "アジェンダはこちら："
   };
 
   function getSettings() {

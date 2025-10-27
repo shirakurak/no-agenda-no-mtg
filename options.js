@@ -1,5 +1,5 @@
 (() => {
-  const DEFAULTS = { keyword: "mtp", prefillText: "アジェンダはこちら:" };
+  const DEFAULTS = { keyword: "meeting, mtg", prefillText: "アジェンダはこちら:" };
   const $ = (id) => document.getElementById(id);
 
   function load() {
