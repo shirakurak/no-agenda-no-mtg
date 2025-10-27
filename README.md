@@ -2,6 +2,8 @@
 
 **Promote better meetings, one agenda at a time.**
 
+Download it [here](https://chromewebstore.google.com/detail/no-agenda-no-mtg/fpjonpnfniocemcpjdepablfpjmabjfa?authuser=1&hl=ja).
+
 ## Overview
 
 **no-agenda-no-mtg** is a Chrome extension that helps you build a better meeting culture.
