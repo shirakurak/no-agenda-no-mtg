@@ -15,6 +15,8 @@ it automatically inserts the text `アジェンダはこちら：` (in English: 
 
 ![Google Calendar screenshot showing automatic agenda insertion](icons/calendar_screenshot_640x400.png)
 
+https://github.com/user-attachments/assets/b5d8655a-eb77-4014-890f-11e52fc2803e
+
 ## Features
 
 - Detects when the event title contains `mtg` or `meetintg`  (or any custom keyword you set)
